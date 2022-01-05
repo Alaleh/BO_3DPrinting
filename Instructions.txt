@@ -1,0 +1,55 @@
+Windows:
+
+1. Have python3 installed.
+
+2. Download Anaconda here:
+    https://www.anaconda.com/products/individual
+
+3. Check anaconda installation:
+    Find anaconda prompt from windows search bar
+    enter: conda --version
+    if less than conda 4.10.3 -> conda update conda -> y
+
+4. Create Directory somewhere (let's say '/Desktop/ML3D/'):
+    cd Desktop/ML3DPrinting
+
+5. Create conda environment (enter exact version of python3 that you have installed instead of 3.9):
+    conda create --name ML3Denv python=3.9
+
+6. Activate the environment: # This has to be done eveytime you re-open the command prompt
+    conda activate ML3Denv
+
+7. Check created environment:
+    conda info --envs
+
+8. inside the environment install requirements (just needs to be done once)
+    conda install pip
+    pip install -r requirements.txt
+
+9. Run the code:
+    python3 main.py
+
+10. Check what is written in the command prompt:
+    input to evaluate [x, y]
+
+11. enter x, y as pressure and speed in the printer and get the objectives.
+
+12. open the text file called 'multiobj_output.txt'
+
+13. add the values you have as the objectives to the last line of the file. The order should alway be the same.
+    For example: always enter it in the order of -time,-porosity,precision
+    separate values by ',' and don't put any spaces in the line
+    enter an empty line after you enter the values
+
+14. Re-do the steps from 9 to 13
+
+"""
+
+---- Notes----
+
+You should start with an initial point in multiobj_input.txt formatted like [x_1, x_2]
+Take a look at the file after each run. There should be the same number of lines in both after you enter the set of objective values
+-> given the set of inputs on line `i` if input file, you get the objective values on line `i` of the output.
+
+
+"""
