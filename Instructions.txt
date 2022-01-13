@@ -11,8 +11,8 @@ Windows:
     if less than conda 4.10.3 -> conda update conda -> y
 
 4. Create Directory somewhere (let's say '/Desktop/ML3D/'):
-    cd Desktop/ML3DPrinting
-
+    cd Desktop/ML3D
+    
 5. Create conda environment (enter exact version of python3 that you have installed instead of 3.9):
     conda create --name ML3Denv python=3.9
 
