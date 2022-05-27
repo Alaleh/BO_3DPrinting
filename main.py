@@ -11,6 +11,7 @@ from botorch.optim.optimize import optimize_acqf, optimize_acqf_list, optimize_a
 from botorch.acquisition.multi_objective.analytic import ExpectedHypervolumeImprovement
 from botorch.acquisition.multi_objective.monte_carlo import qExpectedHypervolumeImprovement
 
+
 # code works for maximization of the objectives
 # multiply the objective that needs to be minimized with a negative sign
 
@@ -30,11 +31,11 @@ def initialize_model(train_x, train_obj, covar_module=None, state_dict=None):
 
 
 def read_input_output():
-    with open('multiobj_input.txt', 'r') as f:
+    with open('input.txt', 'r') as f:
         input_file = f.readlines()
     f.close()
 
-    with open('multiobj_output.txt', 'r') as f:
+    with open('output.txt', 'r') as f:
         output_file = f.readlines()
     f.close()
 
@@ -84,6 +85,8 @@ def generate_feasible_points(already_evaluated):
 
     for i in range(len(n_ranges)):
         res[:, i] = (res[:, i] - n_ranges[i][0]) / (n_ranges[i][1] - n_ranges[i][0])
+
+    # print(len(res))
 
     return res
 
@@ -136,7 +139,7 @@ def main():
             np.round(input_ranges[i][0] + (input_ranges[i][1] - input_ranges[i][0]) * new_input[0][i].item(), 1))
 
     print('input to evaluate : speed = ', train_x_to_evaluate[0], ' , and pressure = ', train_x_to_evaluate[1])
-    with open('multiobj_input.txt', 'a+') as f:
+    with open('input.txt', 'a+') as f:
         print(train_x_to_evaluate, file=f)
     # torch.save({'inputs': train_x, 'outputs': train_y, 'gp_state_dict': model.state_dict()},
     #            'multiobj_bo_num_iters_' + str(len(train_x)) + '.pkl')

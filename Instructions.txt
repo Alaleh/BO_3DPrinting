@@ -1,4 +1,7 @@
-Windows:
+
+*****************************************************************
+
+#### You need to do these steps only once: ####
 
 1. Have python3 installed.
 
@@ -10,46 +13,72 @@ Windows:
     enter: conda --version
     if less than conda 4.10.3 -> conda update conda -> y
 
-4. Create Directory somewhere (let's say '/Desktop/ML3D/'):
-    cd Desktop/ML3D
+4. Create a folder on your desktop with name ML3D
+
+5. Open command prompt(on windows) or terminal(on mac)
+
+6. enter the command below:
+    python --version
+
+7. Copy the version
     
-5. Create conda environment (enter exact version of python3 that you have installed instead of 3.9):
-    conda create --name ML3Denv python=3.9
+8. Create conda environment (enter the value you copied in step 7 instead of 3.9):
+    conda create --name envML3D python=3.9
 
-6. Activate the environment: # This has to be done eveytime you re-open the command prompt
-    conda activate ML3Denv
+9. Open command prompt(on windows) or terminal(on mac) and enter the command below:
+    cd Desktop/ML3D
 
-7. Check created environment:
-    conda info --envs
+10. Activate the environment by entering the command below:
+    conda activate envML3D
 
-8. inside the environment install requirements (just needs to be done once)
+11. Install the project requirements by entering the command below:
     conda install pip
     pip install -r requirements.txt
 
-9. Run the code:
+12. close all windows
+
+*****************************************************************
+
+#### You need to do these every time you close the program: ####
+
+1. Open command prompt(on windows) or terminal(on mac) and enter the command below:
+    cd Desktop/ML3D
+
+2. Activate the environment:
+    conda activate envML3D
+
+3. Check created environment:
+    conda info --envs
+
+4. Run the code:
     python3 main.py
 
-10. Check what is written in the command prompt:
+5. Check what is written in the command prompt:
     input to evaluate [x, y]
 
-11. enter x, y as pressure and speed in the printer and get the objectives.
+6. enter x, y as pressure and speed in the printer and get the 5 new values we have defined as objectives.
+    The objectives are time, negative porosity, positive porosity, negative precision, and positive precision
 
-12. open the text file called 'multiobj_output.txt'
+7. open the text file called 'output.txt'
 
-13. add the values you have as the objectives to the last line of the file. The order should alway be the same.
-    For example: always enter it in the order of -time,-porosity,precision
+8. add the values you have as the objectives to the last line of the file. The order should alway be the same.
     separate values by ',' and don't put any spaces in the line
     enter an empty line after you enter the values
 
-14. Re-do the steps from 9 to 13
+9. Re-do the steps from 5 to 8
+9. Re-do the steps from 5 to 8
 
 """
 
 ---- Notes----
 
-You should start with an initial point in multiobj_input.txt formatted like [x_1, x_2]
-Take a look at the file after each run. There should be the same number of lines in both after you enter the set of objective values
--> given the set of inputs on line `i` if input file, you get the objective values on line `i` of the output.
+If any of the objectives have to be minimized (e.g. time), please multiply their values in -1 before entering them in the output file.
 
+The output values can initially have any unit and order you prefer but please remember to always use the same unit and order throughout the process.
 
-"""
+Please, take a look at the input and output files after each run. There should be the same number of lines in both after you enter the set of objective values
+-> given the set of inputs on line i of input file, you should get the objective values on line i of the output.
+
+Please enter any results you gey in the google sheet with the link below.
+https://docs.google.com/spreadsheets/d/1qDUkLtZnMLPJkmc8x8RUCWrxjIDOQAhVSfxjAYwsFoE/edit?usp=sharing
+
