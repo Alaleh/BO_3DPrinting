@@ -1,4 +1,6 @@
 
+Please, read this file completely before starting the experiments (especially the notes)
+
 *****************************************************************
 
 #### You need to do these steps only once: ####
@@ -66,19 +68,20 @@
     enter an empty line after you enter the values
 
 9. Re-do the steps from 5 to 8
-9. Re-do the steps from 5 to 8
 
 """
 
 ---- Notes----
 
-If any of the objectives have to be minimized (e.g. time), please multiply their values in -1 before entering them in the output file.
+1. We start the process with values 9.5 and 210 for speed and pressure. We already have their results in the google sheet (Note 5). You can use those values instead of re-printing.
 
-The output values can initially have any unit and order you prefer but please remember to always use the same unit and order throughout the process.
+2. If any of the printer values have to be minimized (e.g. time), please multiply their values in -1 before entering them in the output file.
 
-Please, take a look at the input and output files after each run. There should be the same number of lines in both after you enter the set of objective values
+3. The output values can initially have any unit and order you prefer but please remember to always use the same unit and order throughout the process.
+
+4. Please, take a look at the input and output files after each run. There should be the same number of lines in both after you enter the set of objective values
 -> given the set of inputs on line i of input file, you should get the objective values on line i of the output.
 
-Please enter any results you gey in the google sheet with the link below.
+5. Please enter any results you gey in the google sheet with the link below.
 https://docs.google.com/spreadsheets/d/1qDUkLtZnMLPJkmc8x8RUCWrxjIDOQAhVSfxjAYwsFoE/edit?usp=sharing
 
