@@ -1,10 +1,11 @@
 .idea
+.idea/
 ML3Denv
-DS_Store
 .DS_Store
+.DS_Store/
 **/.DS_Store
 
-tignore
+.gitignore
 # Created by .ignore support plugin (hsz.mobi)
 ### Python template
 # Byte-compiled / optimized / DLL files
