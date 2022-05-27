@@ -24,7 +24,7 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+ML3Denv/lib/
 lib64/
 parts/
 sdist/
