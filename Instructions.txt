@@ -1,0 +1,121 @@
+
+Please, read this file completely before starting the experiments.
+
+
+*****************************
+***                       ***
+***        Part 0         ***
+***                       ***
+*****************************
+
+Some definitions:
+
+Feature: A setting on the printer that can be tuned (e.g. speed)
+
+Objective: A defining characteristic of the printed material that we wish to optimize (e.g. porosition, precision, time)
+
+Input space: The set of all possible combinations of features that can be given to the printer and generate a feasible printed shape.
+
+
+*****************************
+***                       ***
+***        Part 1         ***
+***                       ***
+*****************************
+
+### You need to do the steps in Part 1 only once: ###
+### If you have set up your anaconda environment before, please skip to part 2 ###
+
+1. Install python 3.
+
+2. Download Anaconda here:
+    https://www.anaconda.com/products/individual
+
+3. Check anaconda installation:
+    Find anaconda prompt from windows search bar
+    enter: conda --version
+    if less than conda 4.10.3 -> conda update conda -> y
+
+4. Create a folder on your desktop with the name ML3D
+
+5. Open command prompt(on windows) or terminal(on mac)
+
+6. Create conda environment (enter the value you copied in step 7 instead of 3.9):
+    conda create --name envML3D python=3.9
+
+7. Open command prompt(on windows) or terminal(on mac) and enter the command below:
+    cd Desktop/ML3D
+
+8. Activate the environment by entering the command below:
+    conda activate envML3D
+
+9. Install the project requirements by entering the command below (The first one might not be necessary):
+    conda install pip
+    pip install -r requirements.txt
+
+10. close all windows
+
+
+*****************************
+***                       ***
+***        Part 2         ***
+***                       ***
+*****************************
+
+0. Make sure you have the updated code in the ML3D folder on your Desktop (Empty the ML3D folder and Copy everything from the latest updated directory in it)
+
+#### You need to do the following steps every time you close the program: ####
+
+1. Open command prompt(on windows) and enter the command below:
+    cd Desktop/ML3D
+
+2. Activate the environment:
+    conda activate envML3D
+
+3. Run the code:
+    python -W ignore main.py
+
+    3.1. if you get a "python not found" error try "python3 -W ignore main.py"
+
+        3.2. If you still see an error that you can not understand email me at alaleh[dot]adn[at]gmail[dot]com
+
+4. The code will take a while.
+
+5. Check what is written in the command prompt showing the new features to use when setting up the printer:
+    input to evaluate : layer thickness =  x  speed =  y  , and pressure =  z
+
+6. Enter x, y, z as layer thickness, pressure, and speed in the printer and calculate the 4 new objective values using the printed shape.
+    The objectives are time, porosition, negative precision, and positive precision.
+
+7. open the text file called 'output.txt' in the folder 'results/'
+
+8. add the values you have as the objectives to the last line of the file.
+    separate the objective values by ',' without any spaces (e.g. 0.5,0.4,0.3,0.2)
+    make sure there is exactly one empty line at the end of the file
+
+9. Re-do the steps from 3 to 8
+
+"""
+
+---- Notes----
+
+1. We start the process with the values of 4 randomly chosen input vectors for nozzle thickness, speed, and pressure.
+   Please calculate the objective values for these settings and enter them in the output.txt file before running the code.
+
+2. ***IMPORTANT*** All objectives should be maximized. If any of the printer values have to be minimized, please multiply their values in -1  (This will turn a minimaztion problem into maximization) before entering them in the output file.
+
+3. Please be consistent in the method you use to calculate the objectives. You should use the same method for all shapes. If for any reason you change your method for some shapes, the change in calculations has to be explainable in the paper.
+
+4. The output values should always be in the ranges which we have predefined which are [[-360,-10], [-20.0,0.0], [-1.0,0.0], [-1.0,0.0]] for time, porosition, positive_precision, and negative_precision.
+   This also means that you should always use the same unit which you used for defining the ranges (e.g. always grams for porosition).
+
+5. The order in which you enter the outputs should be time, porosition, positive_precision, negative_precision
+
+6. Please, take a look at the input and output files after each run (You can find them in the 'results/' folder). There should be the same number of lines in both after you enter the set of objective values
+-> given the set of inputs in line i of input file, you should get the corresponding objective values in line i of the output using the printer.
+
+7. Please enter any results you get in the Google sheet with the link below.
+https://docs.google.com/spreadsheets/d/1qDUkLtZnMLPJkmc8x8RUCWrxjIDOQAhVSfxjAYwsFoE/edit?usp=sharing
+
+8. Please feel free to contact me if you have any issues. (If the code doesn't run, or you get points that are not in the input space, or there are too similar points, etc.)
+
