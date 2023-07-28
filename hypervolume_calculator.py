@@ -31,7 +31,7 @@ def main():
     init_count = 4
     print(len(data))
     for i in range(init_count, len(data) + 1):
-        print(i, calc_hypervolume(data[:i], rp))
+        print(i-4, calc_hypervolume(data[:i], rp))
 
 
 if __name__ == '__main__':
