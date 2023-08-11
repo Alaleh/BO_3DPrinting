@@ -4,6 +4,7 @@ import copy
 import time
 import torch
 import random
+import argparse
 import numpy as np
 from botorch import fit_gpytorch_model
 from botorch.models.gp_regression import SingleTaskGP
@@ -29,6 +30,8 @@ def initialize_model(train_x, train_obj):
 
 
 def read_file_as_list(f_name, delimiter):
+    if not os.path.isfile(f_name):
+        return []
     with open(f_name, 'r') as f:
         input_file = f.readlines()
     f.close()
@@ -36,9 +39,9 @@ def read_file_as_list(f_name, delimiter):
     return file_vals
 
 
-def read_input_output():
-    inputs = read_file_as_list('results/input.txt', ',')
-    outputs = read_file_as_list('results/output.txt', ',')
+def read_input_output(exp_number):
+    inputs = read_file_as_list('results/experiment_' + str(exp_number) + '/input.txt', ',')
+    outputs = read_file_as_list('results/experiment_' + str(exp_number) + '/output.txt', ',')
     train_x = torch.tensor(inputs)
     train_y = torch.tensor(outputs)
 
@@ -91,7 +94,6 @@ def edited_optimize_acqf_discrete(acq_function, choices, max_batch_size=1, devic
         acq_values = _split_batch_eval_acqf(acq_function=acq_function, X=choices_batched,
                                             max_batch_size=max_batch_size).to(device)
     best_idx = torch.argmax(acq_values)
-    print(acq_values)
     return choices_batched[best_idx]
 
 
@@ -102,11 +104,26 @@ def clear_gpu_memory(variables=None):
 
 
 def main():
-    t0 = time.time()
+    parser = argparse.ArgumentParser(description='3D-printing')
+    parser.add_argument('--experiment', default=2, type=int, help='Experiment number (1 or 2)')
+    args = parser.parse_args()
+    experiment_number = args.experiment
 
-    random.seed(11)
-    np.random.seed(11)
-    torch.manual_seed(11)
+    if experiment_number == 1:
+        problem_seed = 11
+    elif experiment_number == 2:
+        problem_seed = 21
+    else:
+        raise "Undefined experiment"
+
+    if not os.path.exists('results/experiment_' + str(experiment_number)):
+        os.makedirs('results/experiment_' + str(experiment_number), exist_ok=True)
+        open('results/experiment_' + str(experiment_number) + '/input.txt', 'a').close()
+        open('results/experiment_' + str(experiment_number) + '/output.txt', 'a').close()
+
+    random.seed(problem_seed)
+    np.random.seed(problem_seed)
+    torch.manual_seed(problem_seed)
 
     if torch.cuda.is_available():
         device = "cuda"
@@ -120,9 +137,15 @@ def main():
     tkwargs = {"dtype": torch.double, "device": device}
     # thickness, speed, pressure range:
     input_ranges = [[0.26, 0.61], [4.0, 15.0], [98.0, 449.0]]
-    output_ranges = [[-360, -10], [-20.0, 0.0], [-20.0, 0.0], [-20.0, 0.0]]
 
-    train_x, train_y, used_points = read_input_output()
+    if experiment_number == 1:
+        output_ranges = [[-360, -10], [-20.0, 0.0], [-20.0, 0.0], [-20.0, 0.0]]
+    elif experiment_number == 2:
+        output_ranges = [[-230, -37], [-4.0, 0.0], [-4.0, 0.0], [-4.0, 0.0]]
+
+    t0 = time.time()
+
+    train_x, train_y, used_points = read_input_output(experiment_number)
     train_x = train_x.to(**tkwargs)
     train_y = train_y.to(**tkwargs)
 
@@ -131,6 +154,8 @@ def main():
         random_initials = np.random.randint(0, len(feasible_points), size=4)
         for i in random_initials:
             print(feasible_points[i].tolist())
+            with open('results/experiment_' + str(experiment_number) + '/input.txt', 'a+') as f:
+                print(','.join([str(i) for i in (feasible_points[i]).tolist()]), file=f)
         return
 
     for i in range(NUM_FEATURES):
@@ -139,24 +164,17 @@ def main():
     for i in range(NUM_OBJECTIVES):
         train_y[:, i] = (train_y[:, i] - output_ranges[i][0]) / (output_ranges[i][1] - output_ranges[i][0])
 
-    # real reference point which is a lower bound on all objectives
-    # ref_point = torch.tensor([-101.01,-20.01,-3.01,-1.01], **tkwargs)
     ref_point = torch.tensor([0.0, 0.0, 0.0, 0.0], **tkwargs)
 
     mll, model = initialize_model(train_x, train_y)  # initialize the model
-    # print("Finished initializing the model")
 
     fit_gpytorch_model(mll)  # fit the GP model
     partitioning = NondominatedPartitioning(ref_point=ref_point, Y=train_y)
     acq_func = ExpectedHypervolumeImprovement(model=model, ref_point=ref_point.tolist(), partitioning=partitioning, )
-    # print("Finished defining the acquisition function")
 
     # acquisition function optimization - discrete
     feasible_points = generate_feasible_points(used_points).to(**tkwargs)
-    # print("Finished generating the set of valid possible inputs")
-    # print("There were ", len(feasible_points), " Candidates")
     clear_gpu_memory()
-    # feasible_points = koila.lazy(feasible_points)
     new_input = edited_optimize_acqf_discrete(acq_function=acq_func, choices=feasible_points,
                                               max_batch_size=1024, device=device)
     # print("Finished optimizing the acquisition function")
@@ -169,10 +187,10 @@ def main():
 
     print('input to evaluate : layer thickness = ', train_x_to_evaluate[0], ' speed = ', train_x_to_evaluate[1],
           ' , and pressure = ', train_x_to_evaluate[2])
-    with open('results/input.txt', 'a+') as f:
+    with open('results/experiment_' + str(experiment_number) + '/input.txt', 'a+') as f:
         print(','.join([str(i) for i in train_x_to_evaluate]), file=f)
 
-    # print("This iteration took ", time.time() - t0, "Seconds")
+    print("This iteration took ", time.time() - t0, "Seconds")
 
 
 if __name__ == '__main__':
